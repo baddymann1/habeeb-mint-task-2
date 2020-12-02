@@ -36,15 +36,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<SummaryOrderDTO> getOrderHistory(LocalDate fromDate, LocalDate toDate) {
         List<OrderEntity> orderEntities = orderRepo.findByOrderDateBetween(fromDate, toDate);
-        //  Map<>
-
 
         Map<LocalDate, SummaryOrderDTO> check = new HashMap<>();
 
         for (OrderEntity dto : orderEntities) {
             if (check.containsKey(dto.getOrderDate())) {
-
-                List<String> d = new ArrayList<>();
                 SummaryOrderDTO orderDTO = check.get(dto.getOrderDate());
                 SummaryOrderDTO newOrder = new SummaryOrderDTO();
                 newOrder.setOrderDate(dto.getOrderDate());
@@ -56,8 +52,6 @@ public class OrderServiceImpl implements OrderService {
                 check.put(dto.getOrderDate(), SummaryOrderDTO.builder().totalOrder(1).orderDate(dto.getOrderDate()).totalOrderAmount(dto.getPrice()).build());
             }
         }
-        //  System.out.println("good lord " + check);
-        List<SummaryOrderDTO> summaryOrderDTOS = check.entrySet().stream().map(a -> a.getValue()).collect(Collectors.toList());
-        return summaryOrderDTOS;
+        return check.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
     }
 }
