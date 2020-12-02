@@ -5,7 +5,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KafkaService {
+public class KafkaConsumerService {
     private final String TOPIC = "Kafka_Task1";
 
 
